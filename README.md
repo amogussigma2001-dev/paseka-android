@@ -1,2 +1,0 @@
-# paseka-android
-Игра
