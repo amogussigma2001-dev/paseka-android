@@ -1,0 +1,77 @@
+name: Build Paseka APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Inject game config (version, repo, Supabase)
+        env:
+          SB_URL: ${{ secrets.SUPABASE_URL }}
+          SB_KEY: ${{ secrets.SUPABASE_KEY }}
+          REPO: ${{ github.repository }}
+        run: |
+          V=$(node -p "require('./package.json').version")
+          echo "APK_VERSION=$V" >> "$GITHUB_ENV"
+          sed -i "s|__VERSION__|$V|g; s|__REPO__|$REPO|g; s|__SB_URL__|$SB_URL|g; s|__SB_KEY__|$SB_KEY|g" www/config.js
+          echo "Версия: $V, репозиторий: $REPO"
+          if [ -z "$SB_URL" ] || [ -z "$SB_KEY" ]; then echo "ВНИМАНИЕ: секреты Supabase не заданы, общий рейтинг будет выключен"; fi
+
+      - name: Add Android
+        run: npx cap add android
+
+      - name: Generate App Icon
+        run: npx capacitor-assets generate --android
+
+      - name: Check icons
+        run: |
+          ls -R android/app/src/main/res | grep -i "ic_launcher" || echo "ВНИМАНИЕ: иконки не найдены"
+          cat android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+
+      - name: Check Manifest
+        run: cat android/app/src/main/AndroidManifest.xml
+
+      - name: Sync Android
+        run: npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Rename APK
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk "Paseka-${APK_VERSION}.apk"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Paseka-APK
+          path: Paseka-*.apk
