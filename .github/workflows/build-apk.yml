@@ -39,8 +39,8 @@ jobs:
       - name: Generate App Icon
         run: npx capacitor-assets generate --android
 
-      - name: Check Generated Icons
-        run: ls -lah android/app/src/main/res/mipmap-xxxhdpi/
+      - name: Check Manifest
+        run: cat android/app/src/main/AndroidManifest.xml
 
       - name: Sync Android
         run: npx cap sync android
