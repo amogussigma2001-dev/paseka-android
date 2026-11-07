@@ -33,14 +33,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Generate App Icon
+        run: npx capacitor-assets generate --android
+
       - name: Add Android
         run: npx cap add android
 
       - name: Sync Android
         run: npx cap sync android
-
-      - name: Generate App Icon
-        run: npx capacitor-assets generate --android
 
       - name: Build APK
         run: |
