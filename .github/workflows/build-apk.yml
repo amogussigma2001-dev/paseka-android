@@ -1,3 +1,4 @@
+
 name: Build Paseka APK
 
 on:
@@ -16,13 +17,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 17
+          node-version: 22
 
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
@@ -49,3 +50,4 @@ jobs:
         with:
           name: Paseka-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          
