@@ -3,11 +3,12 @@ name: Build Paseka APK
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,7 +16,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -23,16 +24,15 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Android SDK
+      - name: Install Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install SDK
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Create Android project
+      - name: Add Android
         run: npx cap add android
 
       - name: Sync Android
@@ -40,8 +40,8 @@ jobs:
 
       - name: Build APK
         run: |
-          chmod +x android/gradlew
           cd android
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
