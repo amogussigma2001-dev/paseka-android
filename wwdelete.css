@@ -1,4 +1,4 @@
-#tabs,#panel{display:none!important}
+no#tabs,#panel{display:none!important}
 .pg.on{display:grid;grid-template-columns:1fr 1fr;gap:8px}#set.on,#adm.on{display:flex;flex-direction:column;gap:8px}
 #gb{display:flex;gap:6px;padding:6px 8px;background:linear-gradient(#ffd75e,#f5a300)}
 #gb button{flex:1;border:0;border-radius:14px;padding:9px 0;font-size:20px;background:rgba(255,255,255,.55);box-shadow:0 3px 0 rgba(120,70,0,.35)}
