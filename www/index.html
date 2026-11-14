@@ -81,14 +81,14 @@ cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect(),x=e.cli
 $('#sell').onclick=sell;
 
 /* sound */
-let bg=0,AC,mg,lD=0;function audioOff(){bg=1;try{AC&&AC.state=='running'&&AC.suspend()}catch(e){}}function audioOn(){if(document.hidden)return;bg=0;try{AC&&AC.state=='suspended'&&AC.resume()}catch(e){}}
+let bg=0,AC,mg,lD=0;function audioOff(){bg=1;window.musSync&&musSync();try{AC&&AC.state=='running'&&AC.suspend()}catch(e){}}function audioOn(){if(document.hidden)return;bg=0;window.musSync&&musSync();try{AC&&AC.state=='suspended'&&AC.resume()}catch(e){}}
 document.addEventListener('visibilitychange',()=>document.hidden?audioOff():audioOn());addEventListener('pagehide',audioOff);addEventListener('pageshow',audioOn);function au(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)();mg=AC.createGain();mg.connect(AC.destination)}catch(e){}}if(AC){if(AC.state=='suspended')AC.resume();mg.gain.value=S.vol}return AC}
 function tone(f,d,ty='sine',v=.25,t0=0,f2,k){if(bg||(k?!S.mus:!S.snd))return;if(k)v*=(S.mvol==null?.7:S.mvol);const a=au();if(!a||a.state!='running')return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+t0;o.type=ty;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(mg);o.start(t);o.stop(t+d+.02)}
 const SF={tap:()=>tone(520,.09,'triangle',.2,0,780),pop:()=>tone(660,.1,'sine',.22,0,990),coin:()=>{tone(988,.1,'square',.1);tone(1319,.25,'square',.1,.08)},buy:()=>[523,659,784].forEach((f,i)=>tone(f,.18,'triangle',.22,i*.07)),gold:()=>[784,988,1175,1568].forEach((f,i)=>tone(f,.3,'sine',.22,i*.08)),no:()=>tone(160,.15,'sawtooth',.12,0,110),drop:()=>tone(900,.07,'sine',.07,0,1200)};
 const sfx=n=>{try{SF[n]()}catch(e){}};addEventListener('pointerdown',au,{once:true,capture:true});
-const PEN=[261.6,293.7,329.6,392,440,523.3,587.3];
+const PEN=[261.6,293.7,329.6,392,440,523.3,587.3,659.3];
 const MEL=[[0,2,4,2],[4,5,4,2],[2,4,5,7],[7,5,4,0]];let mi=0,mj=0;
-setInterval(()=>{if(bg||!S.mus||!AC)return;const m=MEL[mi%4];tone(PEN[m[mj%4]],1.4,'sine',.07,0,0,1);if(mj%4==0)tone(PEN[m[0]]/2,2.4,'triangle',.06,0,0,1);mj++;if(mj%4==0)mi++},650);
+setInterval(()=>{if(bg||!S.mus||!AC||!window.MUSBAD)return;const m=MEL[mi%4];tone(PEN[m[mj%4]],1.4,'sine',.07,0,0,1);if(mj%4==0)tone(PEN[m[0]]/2,2.4,'triangle',.06,0,0,1);mj++;if(mj%4==0)mi++},650);
 setInterval(()=>{if(!bg&&S.amb&&AC&&bees.length)tone(140+Math.random()*30,.7,'sawtooth',Math.min(.04,.006*bees.length))},900);
 /* skins */
 const BS={b0:{n:'Классика',ds:'Золотая полосатая',p:0,c:'#ffc929',s:'#2a1a00',w:'rgba(255,255,255,.8)'},b1:{n:'Огненная',ds:'С огоньком',p:400,c:'#ff6a2b',s:'#4a0d00',w:'rgba(255,200,120,.8)'},b2:{n:'Лунная',ds:'Ночной окрас',p:2500,c:'#7fb6ff',s:'#10204a',w:'rgba(220,240,255,.85)'},b3:{n:'Королева',ds:'Носит корону 👑',p:15000,c:'#ffd700',s:'#5a3a00',w:'rgba(255,255,255,.8)',x:'crown'},b4:{n:'Космонавт',ds:'В шлеме со стеклом',p:80000,c:'#e8eefc',s:'#3a4a7a',w:'rgba(190,220,255,.8)',x:'helm'},b5:{n:'Радужная',ds:'Переливается и светится',p:500000,rb:1,s:'#2a1a40',w:'rgba(255,255,255,.85)',x:'glow'}};

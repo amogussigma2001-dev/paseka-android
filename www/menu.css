@@ -173,3 +173,6 @@
 .ldl{font-size:44px;font-weight:900;letter-spacing:3px;color:#ffd24a;-webkit-text-stroke:2px #8a3b00;text-shadow:0 4px 0 #8a3b00;padding:4px 24px;border-radius:18px;background:linear-gradient(#a8672a,#7a4418);border:4px solid #5a300e}
 .ldp{width:min(78%,320px);height:18px;border-radius:12px;background:#5a3a1a;border:3px solid #3a200a;overflow:hidden}.ldp i{display:block;height:100%;width:6%;background:linear-gradient(#ffd24a,#f5a300);transition:width .25s}
 .ldt{font-weight:800;color:#4a2e0a}.ldh{min-height:2.4em;text-align:center;max-width:300px;font-weight:700;color:#5a3a10}
+
+/* 1.6.1: панель вкладок магазина не должна сжиматься */
+.sb>*{flex-shrink:0}.tabs2{flex:none;min-height:44px}.tabs2 button{white-space:nowrap;min-height:36px}
