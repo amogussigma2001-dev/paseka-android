@@ -43,7 +43,7 @@
 .days .cur{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}.days .done{opacity:.45}
 .ac{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--bd);border-radius:14px;padding:8px 10px}.ac.ok{border-color:#3cb043}.ac .i{font-size:26px}.ac .t{flex:1;font-size:13px;font-weight:700}.ac .t small{display:block;font-weight:600;opacity:.75}
 .ac button{border:0;border-radius:10px;padding:8px 10px;font-weight:800;background:var(--ac);color:#3b2a10}.ac button:disabled{opacity:.4}
-#um,#tu,#fn{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px}
+#um,#tu,#fn,#cf{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px}
 #um div,#tu div{background:var(--card);color:var(--fg);border:3px solid var(--ac);border-radius:22px;padding:20px;max-width:340px;text-align:center;animation:pop .3s}
 @keyframes pop{from{transform:scale(.8);opacity:0}}
 #um h2{margin:0 0 8px}#um p,#tu p{margin:0 0 14px;line-height:1.4}#um button,#tu button{display:block;width:100%;border:0;border-radius:14px;padding:13px;margin-top:8px;font-size:16px;font-weight:800;background:var(--ac);color:#3b2a10}#um button.l,#tu button.l{background:transparent;color:var(--fg);opacity:.7}
@@ -176,3 +176,7 @@
 
 /* 1.6.1: панель вкладок магазина не должна сжиматься */
 .sb>*{flex-shrink:0}.tabs2{flex:none;min-height:44px}.tabs2 button{white-space:nowrap;min-height:36px}
+
+/* 1.7: VIP */
+.pav.vip,.av.vip{border-color:#ffd24a!important;box-shadow:0 0 0 3px #ffb300,0 0 14px #ffd24a}
+.pcard.vipc{background:linear-gradient(#fff3c2,#ffe9a8);border:3px solid #ffd24a;border-radius:20px;padding:8px;box-shadow:0 0 14px rgba(255,200,40,.5);color:#4a2e0a}
