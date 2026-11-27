@@ -53,6 +53,12 @@ jobs:
       - name: Add Android
         run: npx cap add android
 
+      - name: Разрешение на уведомления в манифесте
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q POST_NOTIFICATIONS "$M" || sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#&\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />#' "$M"
+          grep -n "uses-permission" "$M"
+
       - name: Generate App Icon
         run: npx capacitor-assets generate --android
 
